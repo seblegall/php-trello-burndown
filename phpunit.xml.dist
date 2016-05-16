@@ -12,13 +12,13 @@
          bootstrap="test/bootstrap.php"
 >
     <testsuites>
-        <testsuite name="PhpTrelloBurndown Tests suite">
-            <directory>./test/PhpTrelloBurndown/</directory>
+        <testsuite name="TrelloBurndown Tests suite">
+            <directory>./test/TrelloBurndown/</directory>
         </testsuite>
     </testsuites>
 
     <logging>
-        <log type="coverage-html" target="build/coverage" title="PhpTrelloBurndown"
+        <log type="coverage-html" target="build/coverage" title="TrelloBurndown"
              charset="UTF-8" yui="true" highlight="true"
              lowUpperBound="35" highLowerBound="70"/>
         <log type="coverage-clover" target="build/logs/clover.xml"/>

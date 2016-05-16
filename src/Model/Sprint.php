@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpTrelloBurndown;
+namespace TrelloBurndown\Model;
 
 /**
  * Class Sprint.
@@ -55,6 +55,8 @@ class Sprint
     }
 
     /**
+     * Calculate the end of sprint from start and duration.
+     *
      * @return \DateTime|null
      */
     public function getEnd()
@@ -69,6 +71,9 @@ class Sprint
     }
 
     /**
+     * Get all days in the sprint from start date
+     * and during duration.
+     *
      * @return \DatePeriod|null
      */
     public function getSprintDays()
@@ -81,7 +86,7 @@ class Sprint
             $firstDay = clone $this->start;
 
             return new \DatePeriod(
-                $firstDay->add(new \DateInterval('P1D')),
+                $firstDay->add($interval),
                 $interval,
                 $end
             );
@@ -91,6 +96,8 @@ class Sprint
     }
 
     /**
+     * Calculate the next day in the sprint.
+     *
      * @return \DateTime
      */
     public function getNextDayInSprint()
@@ -110,19 +117,21 @@ class Sprint
     }
 
     /**
+     * Calculate the total work days in the sprint.
+     * This function does not return week-end days but
+     * return non-work-days such as christmas.
+     *
      * @return int
      */
     public function getTotalWorkDays()
     {
         $days = $this->getSprintDays();
-
         $total = 0;
 
         foreach ($days as $day) {
             if ($day instanceof \DateTime && ($day->format('N') == 6 || $day->format('N') == 7)) {
                 continue;
             }
-
             ++$total;
         }
 

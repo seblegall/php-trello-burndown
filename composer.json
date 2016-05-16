@@ -18,7 +18,7 @@
       "phpunit/phpunit": "5.3.*"
     },
     "autoload": {
-        "psr-4": { "PhpTrelloBurndown\\": "src/" }
+        "psr-4": { "TrelloBurndown\\": "src/" }
     }
 }
 
