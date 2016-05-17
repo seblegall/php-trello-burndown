@@ -17,6 +17,14 @@
         </testsuite>
     </testsuites>
 
+    <filter>
+        <whitelist>
+            <directory suffix=".php">./src/Client/</directory>
+            <directory suffix=".php">./src/Manager/</directory>
+            <directory suffix=".php">./src/Model/</directory>
+        </whitelist>
+    </filter>
+
     <logging>
         <log type="coverage-html" target="build/coverage" title="TrelloBurndown"
              charset="UTF-8" yui="true" highlight="true"
