@@ -52,6 +52,22 @@ class TrelloClient
     }
 
     /**
+     * @return string
+     */
+    public function getApiKey()
+    {
+        return $this->apiKey;
+    }
+
+    /**
+     * @return string
+     */
+    public function getApiToken()
+    {
+        return $this->apiToken;
+    }
+
+    /**
      * Set Client and authenticate.
      */
     public function setClient()
