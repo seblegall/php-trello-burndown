@@ -6,51 +6,20 @@ use Trello\Model\Board;
 use TrelloBurndown\Manager\BoardManager;
 
 /**
- * Class BoardManagerTest
+ * Class BoardManagerTest.
  */
-class BoardManagerTest extends \PHPUnit_Framework_TestCase
+class BoardManagerTest extends AbstractManagerTest
 {
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    private function getTrelloClientMock()
-    {
-        $trelloClient = $this->getMockBuilder('TrelloBurnDown\Client\TrelloClient')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $trelloClient->method('getClient')
-            ->willReturn($this->getClientMock());
-
-        return $trelloClient;
-    }
-
-    /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    private function getClientMock()
-    {
-        $client = $this->getMockBuilder('Trello\Client')
-            ->disableOriginalConstructor()
-            ->setMethods(['api'])
-            ->getMock();
-
-        $client->expects($this->any())
-            ->method('api')
-            ->will($this->returnCallback(array($this, 'getApiMock')));
-
-        return $client;
-    }
-
-    /**
      * @param $api
+     *
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
     public function getApiMock($api)
     {
-        if ($api == "member") {
+        if ($api == 'member') {
             return $this->getApiMemberMock();
-        }
-        elseif ($api == "board") {
+        } elseif ($api == 'board') {
             return $this->getBoardApiMock();
         }
     }
@@ -58,7 +27,7 @@ class BoardManagerTest extends \PHPUnit_Framework_TestCase
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    function getApiMemberMock()
+    protected function getApiMemberMock()
     {
         $memberApi = $this->getMockBuilder('Trello\Api\Member')
             ->disableOriginalConstructor()
@@ -75,7 +44,7 @@ class BoardManagerTest extends \PHPUnit_Framework_TestCase
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    private function getBoardApiMock()
+    protected function getBoardApiMock()
     {
         $board = $this->getMockBuilder('Trello\Api\Board')
 
@@ -93,7 +62,7 @@ class BoardManagerTest extends \PHPUnit_Framework_TestCase
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    private function getMemberBoardApiMock()
+    protected function getMemberBoardApiMock()
     {
         $boardApi = $this->getMockBuilder('Trello\Api\Member\Boards')
             ->disableOriginalConstructor()
@@ -111,22 +80,22 @@ class BoardManagerTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    private function getBoardsData()
+    protected function getBoardsData()
     {
         return [
             [
-                "name" => "test 1",
-                "id" => "1"
+                'name' => 'test 1',
+                'id' => '1',
             ],
             [
-                "name" => "test 2",
-                "id" => "2"
-            ]
+                'name' => 'test 2',
+                'id' => '2',
+            ],
         ];
     }
 
     /**
-     * Test get board manager
+     * Test get board manager.
      */
     public function testBoardManager()
     {
@@ -137,20 +106,20 @@ class BoardManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test get board by name
+     * Test get board by name.
      */
     public function testGetBoard()
     {
         $trelloClient = $this->getTrelloClientMock();
         $boardManager = new BoardManager($trelloClient);
 
-        $this->assertInstanceOf(Board::class, $boardManager->getBoard("test 1"));
-        $this->assertEquals("test 1", $boardManager->getBoard("test 1")->getName());
-        $this->assertEquals("1", $boardManager->getBoard("test 1")->getId());
+        $this->assertInstanceOf(Board::class, $boardManager->getBoard('test 1'));
+        $this->assertEquals('test 1', $boardManager->getBoard('test 1')->getName());
+        $this->assertEquals('1', $boardManager->getBoard('test 1')->getId());
     }
 
     /**
-     * Test exception when board cannot be find
+     * Test exception when board cannot be find.
      *
      * @expectedException \Exception
      * @expectedExceptionMessage Board test 3 not found
@@ -159,7 +128,6 @@ class BoardManagerTest extends \PHPUnit_Framework_TestCase
     {
         $trelloClient = $this->getTrelloClientMock();
         $boardManager = new BoardManager($trelloClient);
-        $boardManager->getBoard("test 3");
+        $boardManager->getBoard('test 3');
     }
-
 }
