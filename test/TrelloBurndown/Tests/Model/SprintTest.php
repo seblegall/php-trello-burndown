@@ -42,7 +42,7 @@ class SprintTest extends \PHPUnit_Framework_TestCase
         $duration = new \DateInterval('P14D');
         $sprint->setDuration($duration);
 
-        $this->assertEquals($sprint->getDuration(), $duration);
+        $this->assertEquals($duration, $sprint->getDuration());
     }
 
     /**
@@ -64,7 +64,7 @@ class SprintTest extends \PHPUnit_Framework_TestCase
         //Test with value (Real case)
         $sprint->setStart(new \DateTime('2016-04-12'));
         $sprint->setDuration($duration);
-        $this->assertEquals($sprint->getEnd()->format('Y-m-d'), '2016-04-26');
+        $this->assertEquals('2016-04-26', $sprint->getEnd()->format('Y-m-d'));
     }
 
     /**
@@ -78,7 +78,7 @@ class SprintTest extends \PHPUnit_Framework_TestCase
 
         $days = new \DatePeriod(new \DateTime('2016-04-13'), new \DateInterval('P1D'), new \DateTime('2016-04-26'));
 
-        $this->assertEquals($sprint->getSprintDays(), $days);
+        $this->assertEquals($days, $sprint->getSprintDays());
     }
 
     /**
@@ -91,11 +91,11 @@ class SprintTest extends \PHPUnit_Framework_TestCase
         $today->setTime(0, 0, 0);
 
         if ($today->format('N') == 5) {
-            $this->assertEquals($sprint->getNextDayInSprint(), $today->modify('+3 days'));
+            $this->assertEquals($today->modify('+3 days'), $sprint->getNextDayInSprint());
         } elseif ($today->format('N') == 6) {
-            $this->assertEquals($sprint->getNextDayInSprint(), $today->modify('+2 days'));
+            $this->assertEquals($today->modify('+2 days'), $sprint->getNextDayInSprint());
         } else {
-            $this->assertEquals($sprint->getNextDayInSprint(), $today->modify('+1 days'));
+            $this->assertEquals($today->modify('+1 days'), $sprint->getNextDayInSprint());
         }
     }
 
@@ -108,6 +108,6 @@ class SprintTest extends \PHPUnit_Framework_TestCase
         $sprint->setStart(new \DateTime('2016-04-12'));
         $sprint->setDuration($duration = new \DateInterval('P14D'));
 
-        $this->assertEquals($sprint->getTotalWorkDays(), 9);
+        $this->assertEquals(9, $sprint->getTotalWorkDays());
     }
 }
