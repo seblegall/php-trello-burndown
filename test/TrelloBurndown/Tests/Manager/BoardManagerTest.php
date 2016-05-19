@@ -4,96 +4,13 @@ namespace TrelloBurndown\Tests\Manager;
 
 use Trello\Model\Board;
 use TrelloBurndown\Manager\BoardManager;
+use TrelloBurndown\Tests\AbstractTestCase;
 
 /**
  * Class BoardManagerTest.
  */
-class BoardManagerTest extends AbstractManagerTest
+class BoardManagerTest extends AbstractTestCase
 {
-    /**
-     * @param $api
-     *
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    public function getApiMock($api)
-    {
-        if ($api == 'member') {
-            return $this->getApiMemberMock();
-        } elseif ($api == 'board') {
-            return $this->getBoardApiMock();
-        }
-    }
-
-    /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function getApiMemberMock()
-    {
-        $memberApi = $this->getMockBuilder('Trello\Api\Member')
-            ->disableOriginalConstructor()
-            ->setMethods(['boards'])
-            ->getMock();
-
-        $memberApi->expects($this->any())
-            ->method('boards')
-            ->willReturn($this->getMemberBoardApiMock());
-
-        return $memberApi;
-    }
-
-    /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function getBoardApiMock()
-    {
-        $board = $this->getMockBuilder('Trello\Api\Board')
-
-                ->disableOriginalConstructor()
-            ->setMethods(['show'])
-            ->getMock();
-
-        $board->expects($this->any())
-        ->method('show')
-        ->willReturn($this->getBoardsData()[0]);
-
-        return $board;
-    }
-
-    /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function getMemberBoardApiMock()
-    {
-        $boardApi = $this->getMockBuilder('Trello\Api\Member\Boards')
-            ->disableOriginalConstructor()
-            ->setMethods(['all'])
-            ->getMock();
-
-        $boardApi->expects($this->any())
-            ->method('all')
-            ->with($this->equalTo('me'))
-            ->willReturn($this->getBoardsData());
-
-        return $boardApi;
-    }
-
-    /**
-     * @return array
-     */
-    protected function getBoardsData()
-    {
-        return [
-            [
-                'name' => 'test 1',
-                'id' => '1',
-            ],
-            [
-                'name' => 'test 2',
-                'id' => '2',
-            ],
-        ];
-    }
-
     /**
      * Test get board manager.
      */
