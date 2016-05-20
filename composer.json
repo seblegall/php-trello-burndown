@@ -15,7 +15,7 @@
       "cdaguerre/php-trello-api": "@dev"
       },
     "require-dev": {
-      "phpunit/phpunit": "5.3.*"
+      "phpunit/phpunit": "@dev"
     },
     "autoload": {
         "psr-4": { "TrelloBurndown\\": "src/" }

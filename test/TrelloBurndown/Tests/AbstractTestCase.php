@@ -14,6 +14,7 @@ abstract class AbstractTestCase  extends \PHPUnit_Framework_TestCase
     {
         $trelloClient = $this->getMockBuilder('TrelloBurnDown\Client\TrelloClient')
             ->disableOriginalConstructor()
+            ->setMethods(['getClient'])
             ->getMock();
         $trelloClient->method('getClient')
             ->willReturn($this->getClientMock());
