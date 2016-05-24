@@ -2,6 +2,8 @@
 
 namespace TrelloBurndown\Tests;
 
+use TrelloBurndown\Tests\Mock\BoardMock;
+
 /**
  * Class AbstractTestCase.
  */
@@ -125,36 +127,10 @@ abstract class AbstractTestCase  extends \PHPUnit_Framework_TestCase
      */
     protected function getBoardsData()
     {
-        return [
-            [
-                'name' => 'test 1',
-                'id' => '1',
-                'lists' => [
-                    [
-                        'name' => 'test list 1',
-                        'id' => '1',
-                    ],
-                    [
-                        'name' => 'test list 2',
-                        'id' => '2',
-                    ],
-                ],
-            ],
-            [
-                'name' => 'test 2',
-                'id' => '2',
-                'lists' => [
-                    [
-                        'name' => 'test list 3',
-                        'id' => '1',
-                    ],
-                    [
-                        'name' => 'test list 4',
-                        'id' => '2',
-                    ],
-                ],
-            ],
-        ];
+        $boardOne = new BoardMock('test 1', 1);
+        $boardTwo = new BoardMock('test 2', 2);
+
+        return [$boardOne->getData(), $boardTwo->getData()];
     }
 
     /**
@@ -164,7 +140,7 @@ abstract class AbstractTestCase  extends \PHPUnit_Framework_TestCase
     {
         $list = $this->getMockBuilder('Trello\Api\Cardlist')
             ->disableOriginalConstructor()
-            ->setMethods(['show', 'getFields'])
+            ->setMethods(['show', 'getFields', 'actions'])
             ->getMock();
 
         $list->expects($this->any())
@@ -174,6 +150,10 @@ abstract class AbstractTestCase  extends \PHPUnit_Framework_TestCase
         $list->expects($this->any())
             ->method('getFields')
             ->willReturn(['name', 'id']);
+
+        $list->expects($this->any())
+            ->method('actions')
+            ->willReturn($this->getListActionsApiMock());
 
         return $list;
     }
@@ -196,6 +176,40 @@ abstract class AbstractTestCase  extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function getListActionsApiMock()
+    {
+        $cardListApi = $this->getMockBuilder('Trello\Api\Cardlist\Actions')
+            ->disableOriginalConstructor()
+            ->setMethods(['all'])
+            ->getMock();
+
+        $cardListApi->expects($this->any())
+            ->method('all')
+            ->will($this->returnCallback(array($this, 'getActionsData')));
+
+        return $cardListApi;
+    }
+
+    /**
+     * @param $list
+     * @param $params
+     *
+     * @return array|void
+     */
+    public function getActionsData($list, $params)
+    {
+        if ($list == '1') {
+            return $this->getBoardsData()[0]['lists'][0]['actions'];
+        } elseif ($list == '2') {
+            return $this->getBoardsData()[1]['lists'][1]['actions'];
+        }
+
+        return;
+    }
+
+    /**
      * @param $board
      *
      * @return array|void
@@ -214,7 +228,7 @@ abstract class AbstractTestCase  extends \PHPUnit_Framework_TestCase
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    protected function getBoardOneMock()
+    protected function getBoardMock($id)
     {
         $board = $this->getMockBuilder('Trello\Model\Board')
             ->disableOriginalConstructor()
@@ -223,24 +237,21 @@ abstract class AbstractTestCase  extends \PHPUnit_Framework_TestCase
 
         $board->expects($this->any())
             ->method('getId')
-            ->willReturn('1');
+            ->willReturn($id);
 
         return $board;
     }
 
-    /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function getBoardTwoMock()
+    protected function getListMock($id)
     {
-        $board = $this->getMockBuilder('Trello\Model\Board')
+        $board = $this->getMockBuilder('Trello\Model\CardList')
             ->disableOriginalConstructor()
             ->setMethods(['getId'])
             ->getMock();
 
         $board->expects($this->any())
             ->method('getId')
-            ->willReturn('2');
+            ->willReturn($id);
 
         return $board;
     }

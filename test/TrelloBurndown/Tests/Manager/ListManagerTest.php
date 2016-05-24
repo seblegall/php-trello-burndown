@@ -30,11 +30,12 @@ class ListManagerTest extends AbstractTestCase
         $trelloClient = $this->getTrelloClientMock();
         $listManager = new ListManager($trelloClient);
 
-        $board = $this->getBoardOneMock();
+        $board = $this->getBoardMock('1');
+        $listName = $this->getBoardsData()[0]['lists'][0]['name'];
 
-        $this->assertInstanceOf(Cardlist::class, $listManager->getListFromBoard('test list 1', $board));
-        $this->assertEquals('test list 1', $listManager->getListFromBoard('test list 1', $board)->getName());
-        $this->assertEquals('1', $listManager->getListFromBoard('test list 1', $board)->getId());
+        $this->assertInstanceOf(Cardlist::class, $listManager->getListFromBoard($listName, $board));
+        $this->assertEquals($listName, $listManager->getListFromBoard($listName, $board)->getName());
+        $this->assertEquals('1', $listManager->getListFromBoard($listName, $board)->getId());
     }
 
     /**
@@ -44,7 +45,7 @@ class ListManagerTest extends AbstractTestCase
     {
         $trelloClient = $this->getTrelloClientMock();
         $listManager = new ListManager($trelloClient);
-        $board = $this->getBoardOneMock();
+        $board = $this->getBoardMock('1');
 
         $this->assertEmpty($listManager->getListFromBoard('wrong name', $board));
     }
@@ -56,12 +57,13 @@ class ListManagerTest extends AbstractTestCase
     {
         $trelloClient = $this->getTrelloClientMock();
         $listManager = new ListManager($trelloClient);
-        $board1 = $this->getBoardOneMock();
-        $board2 = $this->getBoardTwoMock();
+        $board1 = $this->getBoardMock('1');
+        $board2 = $this->getBoardMock('2');
+        $listName = $this->getBoardsData()[0]['lists'][0]['name'];
 
-        $this->assertInstanceOf(Cardlist::class, $listManager->getList('test list 1', [$board1, $board2]));
-        $this->assertEquals('test list 1', $listManager->getList('test list 1', [$board1, $board2])->getName());
-        $this->assertEquals('1', $listManager->getList('test list 1', [$board1, $board2])->getId());
+        $this->assertInstanceOf(Cardlist::class, $listManager->getList($listName, [$board1, $board2]));
+        $this->assertEquals($listName, $listManager->getList($listName, [$board1, $board2])->getName());
+        $this->assertEquals('1', $listManager->getList($listName, [$board1, $board2])->getId());
     }
 
     /**
@@ -71,8 +73,8 @@ class ListManagerTest extends AbstractTestCase
     {
         $trelloClient = $this->getTrelloClientMock();
         $listManager = new ListManager($trelloClient);
-        $board1 = $this->getBoardOneMock();
-        $board2 = $this->getBoardTwoMock();
+        $board1 = $this->getBoardMock('1');
+        $board2 = $this->getBoardMock('2');
 
         $this->assertEmpty($listManager->getList('wrong name', [$board1, $board2]));
     }
@@ -87,7 +89,7 @@ class ListManagerTest extends AbstractTestCase
     {
         $trelloClient = $this->getTrelloClientMock();
         $listManager = new ListManager($trelloClient);
-        $board1 = $this->getBoardOneMock();
+        $board1 = $this->getBoardMock('1');
         $board2 = 'test';
 
         $this->assertEmpty($listManager->getList('test list 1', [$board1, $board2]));
