@@ -9,6 +9,7 @@ use TrelloBurndown\Tests\Mock\BoardMock;
  */
 abstract class AbstractTestCase  extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
@@ -198,12 +199,16 @@ abstract class AbstractTestCase  extends \PHPUnit_Framework_TestCase
      *
      * @return array|void
      */
-    public function getActionsData($list, $params)
+    public function getActionsData($list)
     {
         if ($list == '1') {
-            return $this->getBoardsData()[0]['lists'][0]['actions'];
+            $board = new BoardMock('test 1', 1);
+            $list = $board->getLists()[0];
+            return $list->getData()['actions'];
         } elseif ($list == '2') {
-            return $this->getBoardsData()[1]['lists'][1]['actions'];
+            $board = new BoardMock('test 2', 2);
+            $list = $board->getLists()[0];
+            return $list->getData()['actions'];
         }
 
         return;

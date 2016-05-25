@@ -10,10 +10,6 @@ class ListMock implements TrelloMockInterface
     /**
      * @var array
      */
-    private $actions = [];
-    /**
-     * @var array
-     */
     private $cards = [];
     /**
      * @var
@@ -73,11 +69,28 @@ class ListMock implements TrelloMockInterface
      */
     public function getData()
     {
+        $actions = [];
+        foreach ($this->cards as $card){
+            $actions = array_merge($actions, $card->getActionsData());
+        }
+
+        $cards = [];
+        foreach ($this->cards as $card) {
+            $cards[] = $card->getData();
+        }
+
         $data = [
             'name' => $this->name,
             'id' => $this->id,
+            'actions' => $actions,
+            'cards' =>$cards,
         ];
 
         return $data;
+    }
+
+    public function addCard(CardMock $card)
+    {
+        $this->cards[] = $card;
     }
 }

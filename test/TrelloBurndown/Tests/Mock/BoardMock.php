@@ -33,10 +33,21 @@ class BoardMock implements TrelloMockInterface
         $this->name = $name;
         $this->id = $id;
 
-        for ($i = 1; $i < 3; ++$i) {
+        for ($i = 1; $i <= 3; ++$i) {
             $listName = $this->name.' list '.$id;
-            $this->lists[] = new ListMock($listName, $i);
+            $list = new ListMock($listName, $i);
+
+            for ($j = 1; $j <= 4; ++$j) {
+                $card = new CardMock((int) (strval($i).strval($j)), 'Card '.(strval($i).strval($j)));
+                $card->addAction((new \DateTime())->modify('-'.$j.' days')->format('Y-m-d'),
+                    'updateCard',
+                    ($i-1) == 0 ? $i : ($i-1),
+                    $i);
+                $list->addCard($card);
+            }
+            $this->lists[] = $list;
         }
+
     }
 
     /**
@@ -86,5 +97,13 @@ class BoardMock implements TrelloMockInterface
         }
 
         return $data;
+    }
+
+    /**
+     * @return array
+     */
+    public function getLists()
+    {
+        return $this->lists;
     }
 }
