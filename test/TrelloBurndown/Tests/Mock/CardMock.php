@@ -2,13 +2,30 @@
 
 namespace TrelloBurndown\Tests\Mock;
 
-
+/**
+ * Class CardMock.
+ */
 class CardMock
 {
+    /**
+     * @var
+     */
     private $name;
+    /**
+     * @var
+     */
     private $id;
+    /**
+     * @var
+     */
     private $actions;
 
+    /**
+     * CardMock constructor.
+     *
+     * @param $id
+     * @param $name
+     */
     public function __construct($id, $name)
     {
         $this->name = $name;
@@ -47,16 +64,28 @@ class CardMock
         $this->id = $id;
     }
 
+    /**
+     * @param $date
+     * @param string $type
+     * @param null   $listBefore
+     * @param null   $listAfter
+     */
     public function addAction($date, $type = 'updateCard', $listBefore = null, $listAfter = null)
     {
         $this->actions[] = new ActionMock($this->id, $this->name, $date, $type, $listBefore, $listAfter);
     }
 
+    /**
+     * @return mixed
+     */
     public function getActions()
     {
         return $this->actions;
     }
 
+    /**
+     * @return array
+     */
     public function getActionsData()
     {
         $actions = [];
@@ -71,13 +100,15 @@ class CardMock
         return $actions;
     }
 
+    /**
+     * @return array
+     */
     public function getData()
     {
-       return [
+        return [
            'name' => $this->name,
            'id' => $this->id,
            'actions' => $this->getActionsData(),
        ];
     }
-
 }

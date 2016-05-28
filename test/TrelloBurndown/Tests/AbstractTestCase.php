@@ -9,7 +9,6 @@ use TrelloBurndown\Tests\Mock\BoardMock;
  */
 abstract class AbstractTestCase  extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
@@ -141,7 +140,7 @@ abstract class AbstractTestCase  extends \PHPUnit_Framework_TestCase
     {
         $list = $this->getMockBuilder('Trello\Api\Cardlist')
             ->disableOriginalConstructor()
-            ->setMethods(['show', 'getFields', 'actions'])
+            ->setMethods(['show', 'getFields', 'actions', 'cards'])
             ->getMock();
 
         $list->expects($this->any())
@@ -155,6 +154,10 @@ abstract class AbstractTestCase  extends \PHPUnit_Framework_TestCase
         $list->expects($this->any())
             ->method('actions')
             ->willReturn($this->getListActionsApiMock());
+
+        $list->expects($this->any())
+            ->method('cards')
+            ->willReturn($this->getListCardsApiMock());
 
         return $list;
     }
@@ -194,21 +197,71 @@ abstract class AbstractTestCase  extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function getListCardsApiMock()
+    {
+        $cardListApi = $this->getMockBuilder('Trello\Api\Cardlist\Cards')
+            ->disableOriginalConstructor()
+            ->setMethods(['all'])
+            ->getMock();
+
+        $cardListApi->expects($this->any())
+            ->method('all')
+            ->will($this->returnCallback(array($this, 'getCardsData')));
+
+        return $cardListApi;
+    }
+
+    /**
      * @param $list
-     * @param $params
      *
      * @return array|void
+     *
+     * @internal param $params
      */
     public function getActionsData($list)
     {
+        $board = new BoardMock('test 1', 1);
         if ($list == '1') {
-            $board = new BoardMock('test 1', 1);
             $list = $board->getLists()[0];
+
             return $list->getData()['actions'];
         } elseif ($list == '2') {
-            $board = new BoardMock('test 2', 2);
-            $list = $board->getLists()[0];
+            $list = $board->getLists()[1];
+
             return $list->getData()['actions'];
+        } elseif ($list == '3') {
+            $list = $board->getLists()[2];
+
+            return $list->getData()['actions'];
+        }
+
+        return;
+    }
+
+    /**
+     * @param $list
+     *
+     * @return array|void
+     *
+     * @internal param $params
+     */
+    public function getCardsData($list)
+    {
+        $board = new BoardMock('test 1', 1);
+        if ($list == '1') {
+            $list = $board->getLists()[0];
+
+            return $list->getData()['cards'];
+        } elseif ($list == '2') {
+            $list = $board->getLists()[1];
+
+            return $list->getData()['cards'];
+        } elseif ($list == '3') {
+            $list = $board->getLists()[2];
+
+            return $list->getData()['cards'];
         }
 
         return;
@@ -231,6 +284,8 @@ abstract class AbstractTestCase  extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param $id
+     *
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function getBoardMock($id)

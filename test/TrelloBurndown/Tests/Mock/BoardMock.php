@@ -41,13 +41,12 @@ class BoardMock implements TrelloMockInterface
                 $card = new CardMock((int) (strval($i).strval($j)), 'Card '.(strval($i).strval($j)));
                 $card->addAction((new \DateTime())->modify('-'.$j.' days')->format('Y-m-d'),
                     'updateCard',
-                    ($i-1) == 0 ? $i : ($i-1),
+                    ($i - 1) == 0 ? $i : ($i - 1),
                     $i);
                 $list->addCard($card);
             }
             $this->lists[] = $list;
         }
-
     }
 
     /**
