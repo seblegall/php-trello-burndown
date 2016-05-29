@@ -109,6 +109,7 @@ class CardMock
            'name' => $this->name,
            'id' => $this->id,
            'actions' => $this->getActionsData(),
+           'closed' => false,
        ];
     }
 }

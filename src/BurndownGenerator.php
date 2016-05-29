@@ -7,6 +7,7 @@ use Trello\Model\Cardlist;
 use TrelloBurndown\Client\TrelloClient;
 use TrelloBurndown\Manager\BoardManager;
 use TrelloBurndown\Manager\ListManager;
+use TrelloBurndown\Model\Sprint;
 
 /**
  * Class BurndownGenerator.
