@@ -121,12 +121,16 @@ class Sprint
      * This function does not return week-end days but
      * return non-work-days such as christmas.
      *
-     * @return int
+     * @return int | null
      */
     public function getTotalWorkDays()
     {
         $days = $this->getSprintDays();
         $total = 0;
+
+        if(!$days instanceof \DatePeriod) {
+            return null;
+        }
 
         foreach ($days as $day) {
             if ($day instanceof \DateTime && ($day->format('N') == 6 || $day->format('N') == 7)) {

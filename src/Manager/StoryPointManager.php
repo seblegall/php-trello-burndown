@@ -95,16 +95,20 @@ class StoryPointManager
      *
      * @param array  $todoLists
      * @param array  $wipLists
-     * @param array  $doneList
+     * @param array  $doneLists
      * @param Sprint $sprint
      *
-     * @return array
+     * @return array|null
      */
     public function getDoneStoryPoints(array $todoLists, array $wipLists, array $doneLists, Sprint $sprint)
     {
         $doneCards = $this->actionManager->getCardsMovedFromTodoToDone($todoLists, $wipLists, $doneLists);
         $sprintDays = $sprint->getSprintDays();
         $sp = [];
+
+        if (!$sprintDays instanceof \DatePeriod) {
+            return;
+        }
 
         foreach ($sprintDays as $day) {
             $countSP = 0;

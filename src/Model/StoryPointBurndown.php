@@ -12,7 +12,7 @@ class StoryPointBurndown
      */
     private $averageSP;
     /**
-     * @var float
+     * @var array
      */
     private $doneSP;
     /**
@@ -131,14 +131,19 @@ class StoryPointBurndown
     }
 
     /**
-     * @return array
+     * @return array|null
      */
     public function getTheoreticalBurndown()
     {
         $theoreticalBurndown = [];
         $theoreticalBurndown[$this->sprint->getStart()->format('Y-m-d')] = $this->totalSP;
 
-        foreach ($this->sprint->getSprintDays() as $day) {
+        $sprintDays = $this->sprint->getSprintDays();
+        if (!$sprintDays instanceof \DatePeriod) {
+            return;
+        }
+
+        foreach ($sprintDays as $day) {
             if ($day instanceof \DateTime && ($day->format('N') == 6 || $day->format('N') == 7)) {
                 continue;
             }
