@@ -2,11 +2,14 @@
 
 namespace TrelloBurndown\Model;
 
+use TrelloBurndown\Helper\DateHelper;
+
 /**
  * Class Sprint.
  */
 class Sprint
 {
+    use DateHelper;
     /**
      * @var \DateTime
      */
@@ -67,7 +70,7 @@ class Sprint
             return $end->add($this->duration);
         }
 
-        return null;
+        return;
     }
 
     /**
@@ -92,7 +95,7 @@ class Sprint
             );
         }
 
-        return null;
+        return;
     }
 
     /**
@@ -121,19 +124,19 @@ class Sprint
      * This function does not return week-end days but
      * return non-work-days such as christmas.
      *
-     * @return null|integer
+     * @return null|int
      */
     public function getTotalWorkDays()
     {
         $days = $this->getSprintDays();
         $total = 0;
 
-        if(!$days instanceof \DatePeriod) {
-            return null;
+        if (!$days instanceof \DatePeriod) {
+            return;
         }
 
         foreach ($days as $day) {
-            if ($day instanceof \DateTime && ($day->format('N') == 6 || $day->format('N') == 7)) {
+            if ($this->isWeekend($day)) {
                 continue;
             }
             ++$total;

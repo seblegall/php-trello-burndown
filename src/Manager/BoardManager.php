@@ -30,7 +30,7 @@ class BoardManager
      *
      * @param string $boardName
      *
-     * @return \Trello\Model\Board;
+     * @return \Trello\Model\Board
      *
      * @throws \Exception
      */

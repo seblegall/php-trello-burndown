@@ -2,11 +2,14 @@
 
 namespace TrelloBurndown\Model;
 
+use TrelloBurndown\Helper\DateHelper;
+
 /**
  * Class StoryPointBurndown.
  */
 class StoryPointBurndown
 {
+    use DateHelper;
     /**
      * @var float
      */
@@ -144,7 +147,7 @@ class StoryPointBurndown
         }
 
         foreach ($sprintDays as $day) {
-            if ($day instanceof \DateTime && ($day->format('N') == 6 || $day->format('N') == 7)) {
+            if ($this->isWeekend($day)) {
                 continue;
             }
 

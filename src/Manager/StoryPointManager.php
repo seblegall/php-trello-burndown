@@ -4,6 +4,7 @@ namespace TrelloBurndown\Manager;
 
 use Trello\Model\Cardlist;
 use TrelloBurndown\Client\TrelloClient;
+use TrelloBurndown\Helper\DateHelper;
 use TrelloBurndown\Model\Sprint;
 
 /**
@@ -11,6 +12,7 @@ use TrelloBurndown\Model\Sprint;
  */
 class StoryPointManager
 {
+    use DateHelper;
     /**
      * @var ActionManager
      */
@@ -62,7 +64,7 @@ class StoryPointManager
     /**
      * @param $name
      *
-     * @return int
+     * @return float|int
      */
     public function parseStoryPoints($name)
     {
@@ -74,7 +76,7 @@ class StoryPointManager
     /**
      * @param Cardlist $list
      *
-     * @return int
+     * @return float|int
      */
     public function countListStoryPoints(Cardlist $list)
     {
@@ -117,7 +119,7 @@ class StoryPointManager
                 break;
             }
 
-            if ($day instanceof \DateTime && ($day->format('N') == 6 || $day->format('N') == 7)) {
+            if ($this->isWeekend($day)) {
                 continue;
             }
 
