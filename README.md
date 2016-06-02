@@ -1,4 +1,7 @@
 # Php Trello Burndown
+
+[![Twitter](https://img.shields.io/twitter/url/https/github.com/seblegall/php-trello-burndown.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=%5Bobject%20Object%5D) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/seblegall/php-trello-burndown/master/LICENSE.md) [![Build Status](https://travis-ci.org/seblegall/php-trello-burndown.svg?branch=master)](https://travis-ci.org/seblegall/php-trello-burndown)
+
 A PHP Scrum burndown generator based on Trello API.
 
 This lib helps you to generate a Story Point Burndown chart based on Trello.
