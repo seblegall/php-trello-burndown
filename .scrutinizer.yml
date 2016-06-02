@@ -4,4 +4,8 @@ build:
             version: 7.0
     tests:
         override:
-            - php vendor/bin/phpunit
+            -
+                command: 'php vendor/bin/phpunit --coverage-clover=code_coverage'
+                coverage:
+                    file: 'code_coverage'
+                    format: 'clover'
