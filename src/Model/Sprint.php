@@ -121,7 +121,7 @@ class Sprint
      * This function does not return week-end days but
      * return non-work-days such as christmas.
      *
-     * @return int | null
+     * @return null|integer
      */
     public function getTotalWorkDays()
     {

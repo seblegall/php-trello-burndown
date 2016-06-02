@@ -62,7 +62,7 @@ class StoryPointBurndown
     }
 
     /**
-     * @return float
+     * @return array
      */
     public function getDoneSP()
     {
@@ -70,7 +70,7 @@ class StoryPointBurndown
     }
 
     /**
-     * @param float $doneSP
+     * @param array $doneSP
      */
     public function setDoneSP($doneSP)
     {
