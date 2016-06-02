@@ -1,6 +1,6 @@
 # Php Trello Burndown
 
-[![Twitter](https://img.shields.io/twitter/url/https/github.com/seblegall/php-trello-burndown.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=%5Bobject%20Object%5D) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/seblegall/php-trello-burndown/master/LICENSE.md) [![Build Status](https://travis-ci.org/seblegall/php-trello-burndown.svg?branch=master)](https://travis-ci.org/seblegall/php-trello-burndown)
+[![Twitter](https://img.shields.io/twitter/url/https/github.com/seblegall/php-trello-burndown.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=%5Bobject%20Object%5D) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/seblegall/php-trello-burndown/master/LICENSE.md) [![Build Status](https://travis-ci.org/seblegall/php-trello-burndown.svg?branch=master)](https://travis-ci.org/seblegall/php-trello-burndown) [![Code Coverage](https://scrutinizer-ci.com/g/seblegall/php-trello-burndown/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/seblegall/php-trello-burndown/?branch=master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/seblegall/php-trello-burndown/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/seblegall/php-trello-burndown/?branch=master)
 
 A PHP Scrum burndown generator based on Trello API.
 
