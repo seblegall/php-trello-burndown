@@ -9,6 +9,13 @@ This lib helps you to generate a Story Point Burndown chart based on Trello.
 * PHP > 7.0
 * Composer
 
+## Installation
+
+Using composer :
+```sh
+$ composer require seblegall/php-trello-burndown
+```
+
 ## Usage
 ```PHP
 // Create a new sprint
