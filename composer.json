@@ -13,6 +13,8 @@
             "role": "Developer"
         }
     ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
       "php": ">=7.0",
       "cdaguerre/php-trello-api": "@dev"
