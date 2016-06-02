@@ -100,9 +100,9 @@ class StoryPointManager
      *
      * @return array
      */
-    public function getDoneStoryPoints(array $todoLists, array $wipLists, array $doneList, Sprint $sprint)
+    public function getDoneStoryPoints(array $todoLists, array $wipLists, array $doneLists, Sprint $sprint)
     {
-        $doneCards = $this->actionManager->getCardsMovedFromTodoToDone($todoLists, $wipLists, $doneList);
+        $doneCards = $this->actionManager->getCardsMovedFromTodoToDone($todoLists, $wipLists, $doneLists);
         $sprintDays = $sprint->getSprintDays();
         $sp = [];
 

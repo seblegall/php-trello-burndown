@@ -118,13 +118,36 @@ class StoryPointManagerTest extends AbstractTestCase
         $sprint->setDuration($duration);
         $doneSP = $storyPointManager->getDoneStoryPoints($todoLists, $wipLists, $doneLists, $sprint);
 
-        $totalSP = 0;
+        $doneCards = $actionManager->getCardsMovedFromTodoToDone($todoLists, $wipLists, $doneLists);
+        $sprintDays = $sprint->getSprintDays();
+        $sp = [];
 
-        foreach ($doneSP as $card) {
-            $totalSP += $card['count'];
+        foreach ($sprintDays as $day) {
+            $countSP = 0;
+            if ($day instanceof \DateTime &&
+                ($day->getTimestamp() > $sprint->getNextDayInSprint()->getTimestamp())) {
+                break;
+            }
+
+            if ($day instanceof \DateTime && ($day->format('N') == 6 || $day->format('N') == 7)) {
+                continue;
+            }
+
+            foreach ($doneCards as $card) {
+                $actionDate = new \DateTime($card['date']);
+                if (
+                    $actionDate->getTimestamp() > $sprint->getStart()->getTimestamp() &&
+                    $actionDate->getTimestamp() < $day->getTimestamp()
+                ) {
+                    $countSP += $storyPointManager->parseStoryPoints($card['card']);
+                }
+            }
+
+            $sp[] = ['date' => $day, 'count' => $countSP];
         }
 
-        $this->assertEquals(38, $totalSP);
+
+        $this->assertEquals($sp, $doneSP);
     }
 
     /**
@@ -147,7 +170,7 @@ class StoryPointManagerTest extends AbstractTestCase
         $sprint->setDuration($duration);
         $total = $storyPointManager->getTotalSprintStoryPoints($todoLists, $wipLists, $doneLists, $sprint);
 
-        $this->assertEquals(50, $total);
+        $this->assertEquals(54.0, $total);
     }
 
     /**
@@ -170,6 +193,6 @@ class StoryPointManagerTest extends AbstractTestCase
         $sprint->setDuration($duration);
         $total = $storyPointManager->getTotalSprintStoryPoints($todoLists, $wipLists, $doneLists, $sprint);
 
-        $this->assertEquals(5.56, $storyPointManager->getAverageStoryPointsPerDay($total, $sprint));
+        $this->assertEquals(6, $storyPointManager->getAverageStoryPointsPerDay($total, $sprint));
     }
 }
