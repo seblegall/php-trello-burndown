@@ -5,6 +5,7 @@ namespace TrelloBurndown\Tests\Generator;
 use Trello\Model\Board;
 use Trello\Model\Cardlist;
 use TrelloBurndown\BurndownGenerator;
+use TrelloBurndown\Model\Sprint;
 use TrelloBurndown\Tests\AbstractTestCase;
 
 /**
@@ -188,5 +189,60 @@ class BurndownGeneratorTest extends AbstractTestCase
 
         $this->assertInstanceOf(Cardlist::class, $burndownGenerator->getDoneLists()[1]);
         $this->assertCount(2, $burndownGenerator->getDoneLists());
+    }
+
+    /**
+     * Test get StoryPointBurndown and generate an array.
+     */
+    public function testGetStoryPointBurndown()
+    {
+        $burndownGenerator = new BurndownGenerator($this->getTrelloClientMock());
+        $bordName = $this->getBoardsData()[0]['name'];
+        $todoList = $this->getBoardsData()[0]['lists'][0]['name'];
+        $wipList = $this->getBoardsData()[0]['lists'][1]['name'];
+        $doneList = $this->getBoardsData()[0]['lists'][2]['name'];
+
+        $burndownGenerator->addBoard($bordName);
+        $board = $burndownGenerator->getBoards()[0];
+        $burndownGenerator->addDoneList($doneList, $board->getName());
+        $burndownGenerator->addTodoList($todoList, $board->getName());
+        $burndownGenerator->addWipList($wipList, $board->getName());
+
+        $sprint = new Sprint();
+        $duration = new \DateInterval('P14D');
+        $start = (new  \DateTime('2016-05-24'));
+        $sprint->setStart($start);
+        $sprint->setDuration($duration);
+
+        $burndown = $burndownGenerator->getStoryPointBurndown($sprint);
+
+        $expectedBrundown =
+            [
+                'real' => [
+                        '2016-05-24' => 42,
+                        '2016-05-25' => 42,
+                        '2016-05-26' => 42,
+                        '2016-05-27' => 42,
+                        '2016-05-30' => 37,
+                        '2016-05-31' => 28,
+                        '2016-06-01' => 16,
+                        '2016-06-02' => 2,
+                        '2016-06-03' => -12,
+                    ],
+                'theorical' => [
+                        '2016-05-24' => 42,
+                        '2016-05-25' => 37.33,
+                        '2016-05-26' => 32.66,
+                        '2016-05-27' => 27.99,
+                        '2016-05-30' => 23.32,
+                        '2016-05-31' => 18.65,
+                        '2016-06-01' => 13.98,
+                        '2016-06-02' => 9.31,
+                        '2016-06-03' => 4.64,
+                        '2016-06-06' => -0.03,
+                    ],
+            ];
+
+        $this->assertEquals($expectedBrundown, $burndown->generate());
     }
 }

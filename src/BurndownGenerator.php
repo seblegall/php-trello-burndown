@@ -5,9 +5,12 @@ namespace TrelloBurndown;
 use Trello\Model\Board;
 use Trello\Model\Cardlist;
 use TrelloBurndown\Client\TrelloClient;
+use TrelloBurndown\Manager\ActionManager;
 use TrelloBurndown\Manager\BoardManager;
 use TrelloBurndown\Manager\ListManager;
+use TrelloBurndown\Manager\StoryPointManager;
 use TrelloBurndown\Model\Sprint;
+use TrelloBurndown\Model\StoryPointBurndown;
 
 /**
  * Class BurndownGenerator.
@@ -59,6 +62,8 @@ class BurndownGenerator
         $this->client = $client;
         $this->boardManager = new BoardManager($this->client);
         $this->listManager = new ListManager($this->client);
+        $this->actionManager = new ActionManager($this->client);
+        $this->storyPointManager = new StoryPointManager($this->client, $this->actionManager);
     }
 
     /**
@@ -158,9 +163,17 @@ class BurndownGenerator
 
     /**
      * @param Sprint $sprint
+     *
+     * @return StoryPointBurndown
      */
-    public function generate(Sprint $sprint)
+    public function getStoryPointBurndown(Sprint $sprint)
     {
-        return;
+        $doneSP = $this->storyPointManager->getDoneStoryPoints($this->todoLists, $this->wipLists, $this->doneLists, $sprint);
+        $total = $this->storyPointManager->getTotalSprintStoryPoints($this->todoLists, $this->wipLists, $this->doneLists, $sprint);
+        $average = $this->storyPointManager->getAverageStoryPointsPerDay($total, $sprint);
+
+        $burndown = new StoryPointBurndown($sprint, $total, $doneSP, $average);
+
+        return $burndown;
     }
 }
