@@ -8,10 +8,13 @@
     "authors": [
         {
             "name": "Sébastien Le Gall",
-            "email": "seb@le-gall.net"
+            "email": "seb@le-gall.net",
+            "homepage": "http://le-gall.bzh",
+            "role": "Developer"
         }
     ],
     "require": {
+      "php": ">=7.0",
       "cdaguerre/php-trello-api": "@dev"
       },
     "require-dev": {
