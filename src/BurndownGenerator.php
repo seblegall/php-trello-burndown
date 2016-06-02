@@ -33,6 +33,16 @@ class BurndownGenerator
     private $listManager;
 
     /**
+     * @var ActionManager
+     */
+    private $actionManager;
+
+    /**
+     * @var StoryPointManager
+     */
+    private $storyPointManager;
+
+    /**
      * @var array
      */
     private $boards = [];
