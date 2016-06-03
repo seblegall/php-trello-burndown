@@ -30,9 +30,7 @@ class BoardManager
      *
      * @param string $boardName
      *
-     * @return \Trello\Model\Board
-     *
-     * @throws \Exception
+     * @return \Trello\Model\Board|null
      */
     public function getBoard(String $boardName)
     {
@@ -45,7 +43,7 @@ class BoardManager
 
         $manager = new Manager($this->client);
         if (!isset($boardId)) {
-            throw new \Exception("Board $boardName not found");
+            return;
         }
 
         return $manager->getBoard($boardId);

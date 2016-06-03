@@ -5,6 +5,7 @@ namespace TrelloBurndown;
 use Trello\Model\Board;
 use Trello\Model\Cardlist;
 use TrelloBurndown\Client\TrelloClient;
+use TrelloBurndown\Exception\TrelloItemNotFoundException;
 use TrelloBurndown\Manager\ActionManager;
 use TrelloBurndown\Manager\BoardManager;
 use TrelloBurndown\Manager\ListManager;
@@ -84,9 +85,10 @@ class BurndownGenerator
     public function addBoard(String $boardName)
     {
         $board = $this->boardManager->getBoard($boardName);
-        if ($board instanceof Board) {
-            $this->boards[] = $board;
+        if ($board ==  null || !$board instanceof Board) {
+            throw new TrelloItemNotFoundException('board', $boardName);
         }
+        $this->boards[] = $board;
     }
 
     /**
@@ -100,15 +102,24 @@ class BurndownGenerator
     {
         if ($boardName !== null) {
             $board = $this->boardManager->getBoard($boardName);
-            $list = $this->listManager->getListFromBoard($listName, $board);
-            if (!is_null($list) && $list instanceof Cardlist) {
-                $lists[] = $list;
+
+            if ($board ==  null || !$board instanceof Board) {
+                throw new TrelloItemNotFoundException('board', $boardName);
             }
+
+            $list = $this->listManager->getListFromBoard($listName, $board);
+
+            if ($list == null || !$list instanceof Cardlist) {
+                throw new TrelloItemNotFoundException('list', $listName);
+            }
+
+            $lists[] = $list;
         } else {
             $list = $this->listManager->getList($listName, $this->boards);
-            if (!is_null($list) && $list instanceof Cardlist) {
-                $lists[] = $list;
+            if ($list == null || !$list instanceof Cardlist) {
+                throw new TrelloItemNotFoundException('list', $listName);
             }
+            $lists[] = $list;
         }
     }
 

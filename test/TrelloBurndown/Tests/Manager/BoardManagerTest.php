@@ -37,14 +37,11 @@ class BoardManagerTest extends AbstractTestCase
 
     /**
      * Test exception when board cannot be find.
-     *
-     * @expectedException \Exception
-     * @expectedExceptionMessage Board test 3 not found
      */
     public function testGetBoardWithWrongName()
     {
         $trelloClient = $this->getTrelloClientMock();
         $boardManager = new BoardManager($trelloClient);
-        $boardManager->getBoard('test 3');
+        $this->assertNull($boardManager->getBoard('test 3'));
     }
 }

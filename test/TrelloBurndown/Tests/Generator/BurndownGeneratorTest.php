@@ -43,10 +43,9 @@ class BurndownGeneratorTest extends AbstractTestCase
     }
 
     /**
-     * Test exception when board cannot be find.
+     * Test exception when board cannot be found.
      *
-     * @expectedException \Exception
-     * @expectedExceptionMessage Board test not found
+     * @expectedException TrelloBurndown\Exception\TrelloItemNotFoundException
      */
     public function testAddBoardWithWrongName()
     {
@@ -165,6 +164,38 @@ class BurndownGeneratorTest extends AbstractTestCase
 
         $this->assertInstanceOf(Cardlist::class, $burndownGenerator->getDoneLists()[1]);
         $this->assertCount(2, $burndownGenerator->getDoneLists());
+    }
+
+
+    /**
+     * Test Adding list when list is not found
+     *
+     * @expectedException TrelloBurndown\Exception\TrelloItemNotFoundException
+     * @expectedExceptionMessageRegExp /abc/
+     * * @expectedExceptionMessageRegExp /list/
+     */
+    public function testAddListWithWrongName()
+    {
+        $burndownGenerator = new BurndownGenerator($this->getTrelloClientMock());
+        $bordName = $this->getBoardsData()[0]['name'];
+        $listName = 'abc';
+        $burndownGenerator->addBoard($bordName);
+        $burndownGenerator->addWipList($listName);
+    }
+
+    /**
+     * Test Adding list when board is not found
+     *
+     * @expectedException TrelloBurndown\Exception\TrelloItemNotFoundException
+     * @expectedExceptionMessageRegExp /test/
+     * * @expectedExceptionMessageRegExp /board/
+     */
+    public function testAddListWithWrongBoardName()
+    {
+        $burndownGenerator = new BurndownGenerator($this->getTrelloClientMock());
+        $bordName = 'test';
+        $listName = 'abc';
+        $burndownGenerator->addWipList($listName, $bordName);
     }
 
     /**
