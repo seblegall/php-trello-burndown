@@ -24,6 +24,9 @@
     },
     "autoload": {
         "psr-4": { "TrelloBurndown\\": "src/" }
+    },
+    "scripts": {
+      "test": "php vendor/bin/phpunit"
     }
 }
 
