@@ -175,6 +175,6 @@ class StoryPointManager
      */
     public function getAverageStoryPointsPerDay($totalOfSprint, Sprint $sprint)
     {
-        return round($totalOfSprint / $sprint->getTotalWorkDays(), 2);
+        return round(($totalOfSprint / $sprint->getTotalWorkDays()), 2);
     }
 }

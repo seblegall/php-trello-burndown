@@ -315,4 +315,41 @@ abstract class AbstractTestCase  extends \PHPUnit_Framework_TestCase
 
         return $board;
     }
+
+    protected function getSprintMock()
+    {
+        $sprint = $this->getMockBuilder('TrelloBurndown\Model\Sprint')
+            ->setMethods(['getStart', 'getDuration', 'setStart', 'setDuration', 'getEnd', 'getSprintDays', 'getNextDayInSprint', 'getTotalWorkDays'])
+            ->getMock();
+
+        $sprint->expects($this->any())
+            ->method('getStart')
+            ->willReturn(new \DateTime('2016-05-24'));
+
+        $sprint->expects($this->any())
+            ->method('getDuration')
+            ->willReturn(new \DateInterval('P14D'));
+
+        $sprint->expects($this->any())
+            ->method('getEnd')
+            ->willReturn((new \DateTime('2016-05-24'))->add(new \DateInterval('P14D')));
+
+        $sprint->expects($this->any())
+            ->method('getSprintDays')
+            ->willReturn(new \DatePeriod(
+                (new \DateTime('2016-05-24'))
+                    ->add(new \DateInterval('P1D')),
+                new \DateInterval('P1D'),
+                (new \DateTime('2016-05-24'))->add(new \DateInterval('P14D'))));
+
+        $sprint->expects($this->any())
+            ->method('getNextDayInSprint')
+            ->willReturn(new \DateTime('2016-06-03'));
+
+        $sprint->expects($this->any())
+            ->method('getTotalWorkDays')
+            ->willReturn(10);
+
+        return $sprint;
+    }
 }

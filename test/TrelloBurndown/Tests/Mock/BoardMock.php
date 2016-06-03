@@ -42,7 +42,7 @@ class BoardMock implements TrelloMockInterface
                 $cardId = (int) (strval($i).strval($j));
                 $card = new CardMock($cardId, $cardName);
 
-                $actionDate = (new \DateTime())->modify('-'.$j.' days')->format('Y-m-d');
+                $actionDate = (new \DateTime('2016-06-01'))->modify('-'.$j.' days')->format('Y-m-d');
                 $listBefore = ($i - 1) == 0 ? $i : ($i - 1);
                 $card->addAction($actionDate, 'updateCard', $listBefore, $i);
                 $list->addCard($card);

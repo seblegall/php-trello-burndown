@@ -111,11 +111,7 @@ class StoryPointManagerTest extends AbstractTestCase
         $wipLists = [$this->getListMock('2')];
         $doneLists = [$this->getListMock('3')];
 
-        $sprint = new Sprint();
-        $duration = new \DateInterval('P14D');
-        $start = (new  \DateTime())->modify('-6 days');
-        $sprint->setStart($start);
-        $sprint->setDuration($duration);
+        $sprint = $this->getSprintMock();
         $doneSP = $storyPointManager->getDoneStoryPoints($todoLists, $wipLists, $doneLists, $sprint);
 
         $doneCards = $actionManager->getCardsMovedFromTodoToDone($todoLists, $wipLists, $doneLists);
@@ -163,11 +159,7 @@ class StoryPointManagerTest extends AbstractTestCase
         $wipLists = [$this->getListMock('2')];
         $doneLists = [$this->getListMock('3')];
 
-        $sprint = new Sprint();
-        $duration = new \DateInterval('P14D');
-        $start = (new  \DateTime())->modify('-6 days');
-        $sprint->setStart($start);
-        $sprint->setDuration($duration);
+        $sprint = $this->getSprintMock();
         $total = $storyPointManager->getTotalSprintStoryPoints($todoLists, $wipLists, $doneLists, $sprint);
 
         $this->assertEquals(54.0, $total);
@@ -186,13 +178,9 @@ class StoryPointManagerTest extends AbstractTestCase
         $wipLists = [$this->getListMock('2')];
         $doneLists = [$this->getListMock('3')];
 
-        $sprint = new Sprint();
-        $duration = new \DateInterval('P14D');
-        $start = (new  \DateTime())->modify('-6 days');
-        $sprint->setStart($start);
-        $sprint->setDuration($duration);
+        $sprint = $this->getSprintMock();
         $total = $storyPointManager->getTotalSprintStoryPoints($todoLists, $wipLists, $doneLists, $sprint);
 
-        $this->assertEquals(6, $storyPointManager->getAverageStoryPointsPerDay($total, $sprint));
+        $this->assertEquals(5.4000000000000004, $storyPointManager->getAverageStoryPointsPerDay($total, $sprint));
     }
 }
