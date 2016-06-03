@@ -145,7 +145,7 @@ class StoryPointManager
      * @param array  $doneLists
      * @param Sprint $sprint
      *
-     * @return int
+     * @return double
      */
     public function getTotalSprintStoryPoints(array $todoLists, array $wipLists, array $doneLists, Sprint $sprint)
     {
@@ -168,12 +168,12 @@ class StoryPointManager
     }
 
     /**
-     * @param $totalOfSprint
+     * @param double $totalOfSprint
      * @param Sprint $sprint
      *
      * @return float
      */
-    public function getAverageStoryPointsPerDay($totalOfSprint, Sprint $sprint)
+    public function getAverageStoryPointsPerDay(float $totalOfSprint, Sprint $sprint)
     {
         return round(($totalOfSprint / $sprint->getTotalWorkDays()), 2);
     }
